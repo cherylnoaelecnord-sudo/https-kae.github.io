@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Redirection...</title>
+  <meta name="robots" content="noindex">
+  <style>
+    body { font-family: Arial, sans-serif; text-align:center; padding:40px; color:#222; }
+    .btn { display:inline-block; padding:10px 16px; background:#0b6; color:#fff; border-radius:4px; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <h1>Vous allez être redirigé</h1>
+  <p>Si la redirection ne fonctionne pas automatiquement, cliquez sur le bouton ci‑dessous.</p>
+  <p id="link-area"></p>
+
+  <script>
+    // Récupère le paramètre target et le paramètre utm_campaign s'ils sont fournis.
+    function getParam(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    }
+
+    const target = getParam('target');
+    const linkArea = document.getElementById('link-area');
+
+    if (!target) {
+      linkArea.innerHTML = '<p style="color:#c00;">URL cible manquante.</p>';
+    } else {
+      // Sécuriser : n'autorise que les URL encodées ; on réutilise la valeur telle quelle.
+      const decoded = decodeURIComponent(target);
+      linkArea.innerHTML = '<a id="affiliate-link" class="btn" href="' + decoded + '">Aller vers le marchand</a>';
+      // Redirection automatique après 1.5s
+      setTimeout(function(){
+        window.location.href = decoded;
+      }, 1500);
+    }
+  </script>
+</body>
+</html>
